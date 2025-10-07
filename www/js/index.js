@@ -66,7 +66,9 @@ $(function () {
                 <span class="grey-text text-lighten-1 small">${fecha}</span>
               </div>
               <div class="divider" style="margin: 6px 0;"></div>
-              <p class="truncate amber-text text-accent-1 small">${resumen || ''}</p>
+             <p class="amber-text text-accent-1" style="overflow:hidden; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; text-overflow:ellipsis;">
+  ${nota.body || ''}
+</p>
             </div>
           </div>
         </div>`;
