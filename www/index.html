@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SecondNotes</title>
+
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src * data: blob: 'unsafe-inline' 'unsafe-eval';
+                 connect-src * data: blob: https:;
+                 img-src * data:;
+                 style-src * 'unsafe-inline';">
+
+  <!-- Materialize + Iconos -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <style>
+    .rounded { border-radius: 20px !important; }
+  </style>
+</head>
+
+<body class="grey darken-4 white-text">
+
+  <!-- ===================== LISTA DE NOTAS ===================== -->
+  <main id="screen-list" class="container">
+
+    <!-- Frase del día -->
+    <div id="quote-box" class="card-panel grey darken-3 center-align">
+      <i class="material-icons amber-text">format_quote</i>
+      <p id="daily-quote" class="white-text">Cargando frase del día...</p>
+      <span id="daily-author" class="grey-text text-lighten-1"></span>
+    </div>
+
+    <!-- Buscador + Nueva nota -->
+    <div class="section">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">search</i>
+          <input id="search" type="search" placeholder="Buscar notas…">
+          <label for="search" class="white-text">Buscar</label>
+        </div>
+        <div class="col s12">
+          <button id="btnNew" class="btn btn-large amber darken-2 black-text waves-effect" style="width: 100%;">
+            <i class="material-icons left">note_add</i>Nueva
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="row">
+      <div class="col s12">
+        <ul id="tabs" class="tabs tabs-fixed-width grey darken-3">
+          <li class="tab col s4"><a href="#tab-notes" class="active amber-text text-accent-2">Notas</a></li>
+          <li class="tab col s4"><a href="#tab-favs" class="amber-text text-accent-2">Favoritas</a></li>
+          <li class="tab col s4"><a href="#tab-archived" class="amber-text text-accent-2">Archivadas</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Contenido de Tabs -->
+    <div id="tab-notes"><div id="list-notes" class="row"></div></div>
+    <div id="tab-favs"><div id="list-favs" class="row"></div></div>
+    <div id="tab-archived"><div id="list-archived" class="row"></div></div>
+
+    <!-- Estado vacío -->
+    <div id="emptyState" class="center-align" hidden>
+      <i class="material-icons large amber-text text-accent-3">sticky_note_2</i>
+      <p class="grey-text text-lighten-1">Pulsa <b>Nueva</b> para crear tu primera nota.</p>
+    </div>
+
+  </main>
+
+  <!-- ===================== EDITOR ===================== -->
+  <main id="screen-editor" class="container" style="display:none;">
+    <div class="section">
+      <button id="btnBack" class="btn-flat amber-text text-lighten-2 waves-effect">
+        <i class="material-icons left">arrow_back</i>Volver
+      </button>
+    </div>
+
+    <div class="card-panel grey darken-3 z-depth-2">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="title" type="text" placeholder="Título">
+          <label for="title" class="active grey-text text-lighten-1">Título</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="body" class="materialize-textarea" placeholder="Escribe aquí…"></textarea>
+          <label for="body" class="active grey-text text-lighten-1">Contenido</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m6 grey-text text-lighten-1">
+          <span id="charCount">0 caracteres</span><br>
+          <span id="lastSaved"></span>
+        </div>
+        <div class="col s12 m6 right-align">
+          <button id="btnDelete" class="btn-flat red-text text-lighten-2 waves-effect">
+            <i class="material-icons left">delete</i>Borrar
+          </button>
+          <button id="btnSave" class="btn amber darken-2 black-text waves-effect">
+            <i class="material-icons left">save</i>Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="page-footer grey darken-4">
+    <div class="container center-align">
+      <span class="grey-text text-lighten-2">Notas: <b id="stats">0</b></span>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
