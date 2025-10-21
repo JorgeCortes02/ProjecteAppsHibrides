@@ -33,53 +33,62 @@ $(function () {
     $("#screen-editor").show();
   }
 
-  function renderizar() {
-    const texto = $search.val().toLowerCase();
-    const vistaActiva = $('ul.tabs li .active').attr('href');
-    let filtradas = [];
+ function renderizar() {
+  const texto = $search.val().toLowerCase();
+  const vistaActiva = $('ul.tabs li .active').attr('href');
+  let filtradas = [];
 
-    if (vistaActiva === '#tab-notes')
-      filtradas = notes.filter(n => !n.archived);
-    else if (vistaActiva === '#tab-favs')
-      filtradas = notes.filter(n => n.fav);
-    else if (vistaActiva === '#tab-archived')
-      filtradas = notes.filter(n => n.archived);
+  if (vistaActiva === '#tab-notes')
+    filtradas = notes.filter(n => !n.archived);
+  else if (vistaActiva === '#tab-favs')
+    filtradas = notes.filter(n => n.fav);
+  else if (vistaActiva === '#tab-archived')
+    filtradas = notes.filter(n => n.archived);
 
-    filtradas = filtradas.filter(n =>
-      ((n.title || '') + ' ' + (n.body || '')).toLowerCase().includes(texto)
-    );
+  filtradas = filtradas.filter(n =>
+    ((n.title || '') + ' ' + (n.body || '')).toLowerCase().includes(texto)
+  );
 
-    $('#list-notes, #list-favs, #list-archived').empty();
+  $('#list-notes, #list-favs, #list-archived').empty();
 
-    filtradas.reverse().forEach(nota => {
-      const resumen = (nota.body || '').split('\n')[0];
-      const fecha = nota.updatedAt ? new Date(nota.updatedAt).toLocaleDateString() : '';
-      const card = `
-        <div class="col s12">
-          <div class="rounded card grey darken-3 white-text hoverable z-depth-1" data-id="${nota.id}">
-            <div class="card-content">
-              <div class="valign-wrapper" style="justify-content: space-between;">
-                <h5 class="truncate amber-text text-accent-2" style="margin: 0;">
-                  <i class="material-icons left">sticky_note_2</i>
-                  ${nota.title || 'Sin título'}
-                </h5>
-                <span class="grey-text text-lighten-1 small">${fecha}</span>
-              </div>
-              <div class="divider" style="margin: 6px 0;"></div>
-             <p class="amber-text text-accent-1" style="overflow:hidden; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; text-overflow:ellipsis;">
-  ${nota.body || ''}
-</p>
+  filtradas.reverse().forEach(nota => {
+    const fecha = nota.updatedAt ? new Date(nota.updatedAt).toLocaleDateString() : '';
+    const card = `
+      <div class="col s12">
+        <div class="rounded card grey darken-3 white-text hoverable z-depth-1" data-id="${nota.id}">
+          <div class="card-content">
+            <div class="valign-wrapper" style="justify-content: space-between;">
+              <h5 class="truncate amber-text text-accent-2" style="margin: 0;">
+                <i class="material-icons left">sticky_note_2</i>
+                ${nota.title || 'Sin título'}
+              </h5>
+              <span class="grey-text text-lighten-1 small">${fecha}</span>
             </div>
+            <div class="divider" style="margin: 6px 0;"></div>
+            <p class="amber-text text-accent-1" style="overflow:hidden; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; text-overflow:ellipsis;">
+              ${nota.body || ''}
+            </p>
           </div>
-        </div>`;
-      if (nota.archived) $('#list-archived').append(card);
-      else if (nota.fav) $('#list-favs').append(card);
-      else $('#list-notes').append(card);
-    });
 
-    $emptyState.prop('hidden', filtradas.length > 0);
-    $stats.text(notes.length);
-  }
+          <!-- 🔘 Botonera inferior -->
+          <div class="card-action right-align">
+            <button class="btn-flat fav-toggle ${nota.fav ? 'amber-text' : 'grey-text text-lighten-1'}" data-id="${nota.id}">
+              <i class="material-icons">${nota.fav ? 'star' : 'star_border'}</i>
+            </button>
+            <button class="btn-flat archive-toggle ${nota.archived ? 'blue-text text-lighten-2' : 'grey-text text-lighten-1'}" data-id="${nota.id}">
+              <i class="material-icons">${nota.archived ? 'unarchive' : 'archive'}</i>
+            </button>
+          </div>
+        </div>
+      </div>`;
+    if (nota.archived) $('#list-archived').append(card);
+    else if (nota.fav) $('#list-favs').append(card);
+    else $('#list-notes').append(card);
+  });
+
+  $emptyState.prop('hidden', filtradas.length > 0);
+  $stats.text(notes.length);
+}
 
   function abrirEditor(id) {
     mostrarEditor();
@@ -151,7 +160,35 @@ $(function () {
   $('body').on('click', '.card[data-id]', function () {
     abrirEditor($(this).data('id'));
   });
+function alternarFavorito(id) {
+  const n = notes.find(n => n.id === id);
+  if (n) {
+    n.fav = !n.fav;
+    guardarNotas();
+    M.toast({ html: n.fav ? 'Marcada como favorita ⭐' : 'Quitada de favoritas', displayLength: 1500 });
+    renderizar();
+  }
+}
 
+function alternarArchivado(id) {
+  const n = notes.find(n => n.id === id);
+  if (n) {
+    n.archived = !n.archived;
+    guardarNotas();
+    M.toast({ html: n.archived ? 'Archivada 📦' : 'Desarchivada', displayLength: 1500 });
+    renderizar();
+  }
+}
+
+$('body').on('click', '.fav-toggle', function (e) {
+  e.stopPropagation(); 
+  alternarFavorito($(this).data('id'));
+});
+
+$('body').on('click', '.archive-toggle', function (e) {
+  e.stopPropagation();
+  alternarArchivado($(this).data('id'));
+});
   $('#btnNew').on('click', nuevaNota);
   $('#btnSave').on('click', guardarActual);
   $('#btnDelete').on('click', borrarActual);

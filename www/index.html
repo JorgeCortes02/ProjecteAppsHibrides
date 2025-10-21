@@ -75,41 +75,43 @@
 
  
   <main id="screen-editor" class="container" style="display:none;">
-    <div class="section">
-      <button id="btnBack" class="btn-flat amber-text text-lighten-2 waves-effect">
-        <i class="material-icons left">arrow_back</i>Volver
-      </button>
-    </div>
+  <div class="section">
+    <button id="btnBack" class="btn-flat amber-text text-lighten-2 waves-effect">
+      <i class="material-icons left">arrow_back</i>Volver
+    </button>
+  </div>
 
-    <div class="card-panel grey darken-3 z-depth-2">
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="title" type="text" placeholder="Título">
-          <label for="title" class="active grey-text text-lighten-1">Título</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <textarea id="body" class="materialize-textarea" placeholder="Escribe aquí…"></textarea>
-          <label for="body" class="active grey-text text-lighten-1">Contenido</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12 m6 grey-text text-lighten-1">
-          <span id="charCount">0 caracteres</span><br>
-          <span id="lastSaved"></span>
-        </div>
-        <div class="col s12 m6 right-align">
-          <button id="btnDelete" class="btn-flat red-text text-lighten-2 waves-effect">
-            <i class="material-icons left">delete</i>Borrar
-          </button>
-          <button id="btnSave" class="btn amber darken-2 black-text waves-effect">
-            <i class="material-icons left">save</i>Guardar
-          </button>
-        </div>
+  <div class="card-panel grey darken-3 z-depth-2">
+    <div class="row">
+      <div class="input-field col s12 white-text">
+        <!-- 🟢 Campo de título con texto blanco -->
+        <input id="title" type="text" placeholder="Título" class="white-text">
+        <label for="title" class="active white-text">Título</label>
       </div>
     </div>
-  </main>
+    <div class="row">
+      <div class="input-field col s12 white-text">
+        <!-- 🟢 Área de texto con texto blanco -->
+        <textarea id="body" class="materialize-textarea white-text" placeholder="Escribe aquí…"></textarea>
+        <label for="body" class="active white-text">Contenido</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 m6 grey-text text-lighten-1">
+        <span id="charCount">0 caracteres</span><br>
+        <span id="lastSaved"></span>
+      </div>
+      <div class="col s12 m6 right-align">
+        <button id="btnDelete" class="btn-flat red-text text-lighten-2 waves-effect">
+          <i class="material-icons left">delete</i>Borrar
+        </button>
+        <button id="btnSave" class="btn amber darken-2 black-text waves-effect">
+          <i class="material-icons left">save</i>Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
 
 
   <footer class="page-footer grey darken-4">
